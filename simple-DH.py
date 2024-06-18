@@ -30,7 +30,7 @@ def main():
         if args.privatekey:
             private_key = int(args.privatekey)
         else:
-            private_key = secrets.randbelow(modulus)
+            private_key = secrets.randbelow(999999)
         public_key = calculate_public_key(
             int(base), private_key, int(modulus))
         print('-- Base g --\n', str(base).zfill(6))
