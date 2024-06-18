@@ -17,26 +17,33 @@ def main():
                         required=False, help='[Optional]Private key')
 
     args = parser.parse_args()
+    parser.print_help()
+    try:
+        if args.base:
+            base = int(args.base)
+        else:
+            base = secrets.randbelow(999999)
+        if args.modulus:
+            modulus = int(args.modulus)
+        else:
+            modulus = secrets.randbelow(999999)
+        if args.privatekey:
+            private_key = int(args.privatekey)
+        else:
+            private_key = secrets.randbelow(modulus)
+        public_key = calculate_public_key(
+            int(base), private_key, int(modulus))
+        print('-- Base g --\n', str(base).zfill(6))
+        print('-- Modulus p --\n', str(modulus).zfill(6))
+        print('-- Private Key (Keep this) --\n', str(private_key).zfill(6))
+        print('-- Public Key --\n', str(public_key).zfill(6))
 
-    if args.base and args.modulus:
-        try:
-            if args.privatekey:
-                private_key = int(args.privatekey)
-            else:
-                private_key = secrets.randbelow(args.modulus)
-            public_key = calculate_public_key(
-                int(args.base), private_key, int(args.modulus))
-            print('-- Private Key --\n', private_key)
-            print('-- Public Key --\n', public_key)
-
-            op_pub_key = int(input('-- Opposite Public Key --\n:'))
-            shared_key = calculate_shared_key(
-                op_pub_key, private_key, int(args.modulus))
-            print('-- Shared Key --\n', shared_key)
-        except ValueError:
-            print('Invalid opposite public key entered.')
-    else:
-        parser.print_help()
+        op_pub_key = int(input('-- Opposite Public Key --\n:'))
+        shared_key = calculate_shared_key(
+            op_pub_key, private_key, int(modulus))
+        print('-- Shared Key (Keep this) --\n', str(shared_key).zfill(6))
+    except ValueError:
+        print('Invalid opposite public key entered.')
 
 if __name__ == '__main__':
     main()
