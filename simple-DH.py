@@ -1,14 +1,11 @@
 import argparse
 import secrets
 
-
 def calculate_public_key(base, private_key, modulus):
     return pow(base, private_key, modulus)
 
-
 def calculate_shared_key(opposite_public_key, private_key, modulus):
     return pow(opposite_public_key, private_key, modulus)
-
 
 def main():
     parser = argparse.ArgumentParser(description='Diffie-Hellman Key Exchange')
@@ -40,7 +37,6 @@ def main():
             print('Invalid opposite public key entered.')
     else:
         parser.print_help()
-
 
 if __name__ == '__main__':
     main()
